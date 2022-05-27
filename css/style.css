@@ -125,13 +125,13 @@ table {
 
 :root {
   --box-height: 50vh;
+  --ghost-height: 50vh;
   --box-width: 100vw;
   --box-aspect-ratio: 1;
 }
 
 body {
   background: rgb(35, 36, 37);
-  color: hotpink;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -140,28 +140,34 @@ body {
 .os__wrapper {
   display: block;
 }
+.os__wrapper > * {
+  scroll-snap-align: start;
+}
 
 .os__text-container {
+  text-align: center;
   height: var(--box-height);
   position: -webkit-sticky;
   position: sticky;
+  padding: 0 1rem;
   top: calc(50vh - calc(var(--box-height) / 2));
-  border: 2px solid hotpink;
+  /* TODO top calculation muss mittels JS passieren, dann muss ich die height für die box nicht vordefinieren in css */
 }
 
 .os__text-item {
-  color: white;
+  color: hotpink;
   font-size: 3rem;
   text-transform: uppercase;
   font-family: sans-serif;
   font-weight: 600;
   opacity: 0.2;
 }
+.os__text-item--on {
+  opacity: 1;
+}
 
 .os__ghost {
-  height: var(--box-height);
-  aspect-ratio: var(--box-aspect-ratio);
-  border-top: 2px solid honeydew;
+  height: var(--ghost-height);
 }
 
 .last {

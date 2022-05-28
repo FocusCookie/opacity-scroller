@@ -140,18 +140,37 @@ body {
 .os__wrapper {
   display: block;
 }
-.os__wrapper > * {
-  scroll-snap-align: start;
+
+header {
+  padding: 45vh 1rem;
+}
+
+.title {
+  color: white;
+  font-family: sans-serif;
+  font-weight: bolder;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 3rem;
+}
+.bounce {
+  padding: 1rem;
+  display: block;
+  animation-name: bounce;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 .os__text-container {
   text-align: center;
-  height: var(--box-height);
   position: -webkit-sticky;
   position: sticky;
   padding: 0 1rem;
-  top: calc(50vh - calc(var(--box-height) / 2));
-  /* TODO top calculation muss mittels JS passieren, dann muss ich die height für die box nicht vordefinieren in css */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .os__text-item {
@@ -172,4 +191,13 @@ body {
 
 .last {
   padding-top: 400vh;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(0.5rem);
+  }
 }

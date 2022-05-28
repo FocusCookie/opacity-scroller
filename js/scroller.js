@@ -25,7 +25,20 @@ const isInViewport = function (elem) {
   return middleOnScreen >= topBoundry && middleOnScreen <= bottomBoundry;
 };
 
+function getFirstKeyOfChildrenWithClass(element, className) {
+  if (!element) return 1;
+
+  if (element.childElementCount === 0) return -1;
+
+  const childrens = Object.keys(element.children).map(
+    (key) => element.children[key]
+  );
+
+  return childrens.findIndex((child) => child.classList.contains(className));
+}
+
 if (osWrappers.length > 0) {
+  // Get all os_wrapper and check the os__text-container for elements
   Object.keys(osWrappers).forEach((wrapperKey) => {
     const wrapper = osWrappers[wrapperKey];
     const textContainerKey = getFirstKeyOfChildrenWithClass(
@@ -34,6 +47,13 @@ if (osWrappers.length > 0) {
     );
     const textContainer = wrapper.children[textContainerKey];
 
+    const textContainerHeight = textContainer.getBoundingClientRect().height;
+    const screenHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+    textContainer.style.top = `${screenHeight / 2 - textContainerHeight / 2}px`;
+    console.log(textContainer.style);
+
+    // add for each os__text-container children element a ghost and link them with a uuid
     Object.keys(textContainer.children).forEach((pKey) => {
       const uuid = uuidv4();
 
@@ -54,7 +74,8 @@ const ghosts = document.getElementsByClassName("os__ghost");
 
 window.addEventListener(
   "scroll",
-  function (event) {
+  function () {
+    // if a ghost is in the viewport set the opacity of the linked os__text-container children element to 1
     for (ghost of ghosts) {
       const uuid = ghost.dataset.ghostUuid;
       const linkedParagraph = document.querySelector(`[data-p-uuid="${uuid}"]`);
@@ -68,19 +89,3 @@ window.addEventListener(
   },
   false
 );
-
-function getFirstKeyOfChildrenWithClass(element, className) {
-  if (!element) return 1;
-
-  if (element.childElementCount === 0) return -1;
-
-  const key = Object.keys(element.children).findIndex((key) => {
-    element.children[key].children;
-  });
-
-  const childrens = Object.keys(element.children).map(
-    (key) => element.children[key]
-  );
-
-  return childrens.findIndex((child) => child.classList.contains(className));
-}
